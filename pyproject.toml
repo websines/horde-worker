@@ -1,0 +1,116 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "horde_worker_regen"
+version = "9.0.7"
+description = "Allows you to connect to the AI Horde and generate images for users."
+authors = [
+    {name = "tazlin", email = "tazlin.on.github@gmail.com"},
+    {name = "db0", email = "mail@dbzer0.com"},
+    {name = "Jug", email = "jugdev@proton.me"},
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic=["dependencies"]
+license = {file = "LICENSE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Development Status :: 2 - Pre-Alpha",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Haidra-Org/AI-Horde-Worker"
+"Bug Tracker" = "https://github.com/Haidra-Org/AI-Horde-Worker"
+
+
+[project.scripts]
+run_worker = "horde_worker_regen.run_worker:start"
+download_models = "horde_worker_regen.download_models:main"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.package-dir]
+horde_worker_regen = "horde_worker_regen"
+
+[tool.setuptools.package-data]
+tests = ["*.json"]
+horde_worker_regen = ["assets/*.png"]
+
+[tool.ruff]
+line-length = 119
+lint.select = [
+  "A",
+  "I",
+  "E",
+  "W",
+  "F",
+  "UP",
+  "YTT",
+  "B",
+  "C4",
+  "PIE",
+  "RET",
+  "SIM",
+  "COM",
+  "D",
+  "ANN"]
+lint.ignore = [
+  "ANN101",
+  "ANN102",
+  "D100", # Missing docstring in public module
+  # Ignore D rules for non-google docstring standard
+  "D203",
+  "D204",
+  "D213",
+  "D215",
+  "D400",
+  "D404",
+  "D406",
+  "D407",
+  "D408",
+  "D409",
+  "D413",]
+extend-exclude = ["conda", "model-stats.py", "amd_go_fast.py"]
+
+[tool.ruff.lint.per-file-ignores]
+"download_models.py" = ["E402"]
+"run_worker.py" = ["E402"]
+"convert_config_to_env.py" = ["E402"]
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.black]
+line-length = 119
+include = '\.pyi?$'
+exclude = '''
+/(
+ \.git
+ | \.hg
+ | \.mypy_cache
+ | \.tox
+ | \.venv
+ | venv
+ | _build
+ | buck-out
+ | build
+ | dist
+ | conda
+ | clip_blip
+ | hf_transformers
+ | horde_model_reference
+ | amd_go_fast.py
+)/
+'''
+
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
